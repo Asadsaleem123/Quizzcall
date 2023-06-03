@@ -107,7 +107,7 @@ label{
   cursor: pointer;
 }
 input[type="radio"]{
-  /* display: none; */
+  display: none;
 }
 .selected{
   background-color: red;
@@ -115,9 +115,9 @@ input[type="radio"]{
 .tranparent{
   background-color: transparent;
 }
-/* input[type="radio"]:checked+label{
+input[type="radio"]:checked+label{
   background-color: red;
-} */
+}
 .container{
   text-align: center;
   max-width: 900px;

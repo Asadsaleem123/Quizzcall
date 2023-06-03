@@ -8,24 +8,34 @@ export default function QUESTIONSPage() {
   const [allOptionsSelected, setAllOptionsSelected] = React.useState(false);
   const [selectedOptionIndex, setSelectedOptionIndex] = React.useState(null);
   const [showButton,setShowButton] = React.useState(false)
+  const [submitted,setSubmitted] = React.useState(false)
 
   React.useEffect(()=>{
     setTimeout(()=>{
        setShowButton(true)
     },3000)
   },[])
-
+  function shuffleArray(array) {
+    const shuffledArray = [...array];
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+  }
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=5&category=21&difficulty=medium&type=multiple")
       .then(res => res.json())
       .then(data => {
         const formattedQuestions = data.results.map(question => {
-          return { ...question, selectedOption: "" };
+          const incorrectAnswers = shuffleArray(question.incorrect_answers);
+          const correctAnswer = question.correct_answer;
+          const shuffledAnswers = [...incorrectAnswers, correctAnswer];
+          return { ...question, answers: shuffleArray(shuffledAnswers), selectedOption: "" };
         });
         setQuestions(formattedQuestions);
       });
   }, []);
-
   React.useEffect(() => {
     const areAllOptionsSelected = questions.every(que => que.selectedOption !== "");
     setAllOptionsSelected(areAllOptionsSelected);
@@ -42,6 +52,7 @@ export default function QUESTIONSPage() {
   function checkAnswer() {
     if (allOptionsSelected) {
       setShowAnswer(true);
+      setSubmitted(true)
       const correctAnswers = questions.filter(que => que.correct_answer === que.selectedOption);
       setScore(correctAnswers.length);
     }
@@ -85,6 +96,7 @@ export default function QUESTIONSPage() {
             />
             <label
               htmlFor={`correct-${groupIndex}`}
+              style={{backgroundColor: submitted?"green":""}}
             >
               {decodeEntity(decode(que.correct_answer))}
             </label>
