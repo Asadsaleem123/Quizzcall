@@ -7,6 +7,13 @@ export default function QUESTIONSPage() {
   const [showAnswer, setShowAnswer] = React.useState(false);
   const [allOptionsSelected, setAllOptionsSelected] = React.useState(false);
   const [selectedOptionIndex, setSelectedOptionIndex] = React.useState(null);
+  const [showButton,setShowButton] = React.useState(false)
+
+  React.useEffect(()=>{
+    setTimeout(()=>{
+       setShowButton(true)
+    },3000)
+  },[])
 
   React.useEffect(() => {
     fetch("https://opentdb.com/api.php?amount=5&category=21&difficulty=medium&type=multiple")
@@ -84,7 +91,11 @@ export default function QUESTIONSPage() {
           </div>
         </div>
       ))}
-      {allOptionsSelected && !showAnswer && <button onClick={checkAnswer}>Check Answers</button>}
+    
+          {allOptionsSelected && !showAnswer && showButton &&
+         <button onClick={checkAnswer}>Check Answers</button>}
+ 
+      
       {showAnswer && (
         <div>
           <button onClick={refreshPage}>Play Again</button>
