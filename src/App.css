@@ -90,6 +90,7 @@ margin: 0;
 /*Styling the question page*/
 .options{
   display: flex;
+  flex-wrap: wrap;
   align-items: left;
   justify-content: left;
   gap: 20px;
@@ -116,7 +117,7 @@ input[type="radio"]{
   background-color: transparent;
 }
 input[type="radio"]:checked+label{
-  background-color: red;
+  background-color:  #D6DBF5;
 }
 .container{
   text-align: center;
